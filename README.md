@@ -1,4 +1,5 @@
 # OlhaEleAe
+## [DOWNLOAD](https://github.com/allanf181/OlhaEleAe/releases/download/1.0/OlhaEleAe-1.0-all.jar)
 
 Necessário Java 17 para rodar.
 
