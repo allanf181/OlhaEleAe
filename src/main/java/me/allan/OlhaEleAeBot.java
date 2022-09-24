@@ -10,11 +10,12 @@ import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
@@ -41,6 +42,7 @@ public class OlhaEleAeBot extends ListenerAdapter
         owner = args[2];
         JDABuilder.createDefault(args[0])
                 .addEventListeners(new OlhaEleAeBot())
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
         AudioSourceManagers.registerLocalSource(playerManager);
         playerManager.loadItem(new File(args[1]).getAbsolutePath(), new FunctionalResultHandler(track -> {
@@ -65,7 +67,7 @@ public class OlhaEleAeBot extends ListenerAdapter
         Guild guild = event.getGuild();
         List<VoiceChannel> channels = guild.getVoiceChannelsByName(event.getMessage().getContentRaw().replace("!start", "").trim(), true);
         if (channels.size() == 0) {
-            event.getTextChannel().sendMessage("Channel not found!").queue();
+            event.getChannel().sendMessage("Channel not found!").queue();
         }
         channel = channels.get(0);
         AudioManager manager = guild.getAudioManager();
